@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - AI Exam Proctoring Suite{% endblock %}
+{% block page_title %}AI-Assisted Smart Exam Proctoring{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Live Proctoring Stream -->
+    <div class="col-lg-7">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="text-white mb-0"><i class="bi bi-shield-lock-fill text-success me-2"></i> Live Exam Proctor Stream</h5>
+                    <small class="text-muted">Multi-Object & Candidate Integrity Guardian</small>
+                </div>
+                <span class="badge badge-success-custom">Proctor Active</span>
+            </div>
+
+            <!-- Video Feed Container -->
+            <div class="video-container mb-3">
+                <div class="live-badge" style="background: rgba(16, 185, 129, 0.9);">
+                    <span class="live-dot"></span>
+                    <span>AI EXAM PROCTOR</span>
+                </div>
+                <img src="{{ url_for('video_feed', mode='exam_proctoring') }}" class="video-stream-img" alt="Exam Proctoring Stream">
+            </div>
+
+            <!-- Proctoring Rules Checked -->
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-white small fw-bold"><i class="bi bi-check2-all text-success me-1"></i> Active Integrity Rules:</span>
+                    <span class="badge badge-info-custom">Strict Compliance</span>
+                </div>
+                <div class="row g-2 text-muted small">
+                    <div class="col-6"><i class="bi bi-dot text-info"></i> Single Candidate Seat Verification</div>
+                    <div class="col-6"><i class="bi bi-dot text-info"></i> Unauthorized Person Presence Flag</div>
+                    <div class="col-6"><i class="bi bi-dot text-info"></i> Cell Phone / Electronic Gear Ban</div>
+                    <div class="col-6"><i class="bi bi-dot text-info"></i> Candidate Absence / Desk Departure</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proctoring Audit Panel -->
+    <div class="col-lg-5">
+        <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+                <h5 class="text-white mb-3"><i class="bi bi-clipboard-check text-info me-2"></i> Candidate Session Audit</h5>
+
+                <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small">Session Trust Score</span>
+                        <span class="badge badge-success-custom">98.4% Integrity</span>
+                    </div>
+                    <div class="progress bg-dark" style="height: 10px; border-radius: 5px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 98%;"></div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 mb-3">
+                    <h6 class="text-white small fw-bold mb-2">Live Session Flags:</h6>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted">Primary Candidate:</span>
+                            <span class="text-success fw-bold">Verified in Frame</span>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted">Secondary Face:</span>
+                            <span class="text-muted">None Detected (Clean)</span>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted">Prohibited Electronics:</span>
+                            <span class="text-muted">None Detected (Clean)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle text-info me-1"></i> Any suspicious activity or forbidden items detected are recorded with timestamped audit logs for academic review committee.
+                    </small>
+                </div>
+            </div>
+
+            <!-- Exam Details -->
+            <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                <span class="text-muted small">Exam: <strong>End-Semester AI Assessment</strong></span>
+                <span class="badge badge-info-custom">Hall B-204</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Proctoring Incident History -->
+<div class="glass-card p-4">
+    <h5 class="text-white mb-3"><i class="bi bi-shield-slash text-danger me-2"></i> Proctoring Incident Audit Log</h5>
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Audit ID</th>
+                    <th>Violation Type</th>
+                    <th>Violation Details</th>
+                    <th>Time Stamp</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if incidents %}
+                    {% for inc in incidents %}
+                    <tr>
+                        <td class="font-monospace text-info">{{ inc.id }}</td>
+                        <td><span class="badge badge-danger-custom">{{ inc.type }}</span></td>
+                        <td>{{ inc.details }}</td>
+                        <td class="text-muted font-monospace">{{ inc.timestamp }}</td>
+                        <td><span class="badge badge-warning-custom">Flagged for Review</span></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">No proctoring violations recorded in this session.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

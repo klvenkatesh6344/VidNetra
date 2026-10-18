@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Teaching Audit Report - {{ report.faculty_name }} - {{ report.audit_id }}{% endblock %}
+{% block page_title %}Faculty Teaching Audit Dossier{% endblock %}
+
+{% block extra_head %}
+<style>
+@media print {
+    .sidebar, header, .no-print, .btn, footer { display: none !important; }
+    .main-content { margin-left: 0 !important; padding: 0 !important; }
+    body { background: #fff !important; color: #000 !important; }
+    .glass-card { background: #fff !important; color: #000 !important; border: 1px solid #ccc !important; box-shadow: none !important; }
+    .text-white { color: #000 !important; }
+    .text-muted { color: #444 !important; }
+    .custom-table td, .custom-table th { color: #000 !important; border-bottom: 1px solid #ddd !important; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Action Toolbar (Back & Print) -->
+<div class="d-flex justify-content-between align-items-center mb-4 no-print">
+    <a href="{{ url_for('teaching_auditor') }}" class="btn-secondary-custom">
+        <i class="bi bi-arrow-left"></i> Back to Auditor Studio
+    </a>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-info" onclick="window.print()">
+            <i class="bi bi-printer-fill me-1"></i> Print / Export PDF
+        </button>
+    </div>
+</div>
+
+<!-- Header Dossier Banner -->
+<div class="glass-card p-4 mb-4" style="border-left: 5px solid var(--primary-cyan);">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge badge-info-custom font-monospace">{{ report.audit_id }}</span>
+                <span class="badge badge-success-custom">Verified Audit</span>
+            </div>
+            <h3 class="text-white fw-bold mb-1">{{ report.faculty_name }}</h3>
+            <div class="text-info fw-bold">{{ report.subject }} &bull; <span class="text-white">{{ report.topic }}</span></div>
+            <small class="text-muted">{{ report.department }} &bull; Parul University &bull; Audited on {{ report.timestamp }}</small>
+        </div>
+        <div class="text-end">
+            <div class="text-muted small text-uppercase">Effectiveness Score</div>
+            <div class="display-5 fw-bold text-white font-monospace">{{ report.overall_score }}<span class="fs-4 text-muted">/100</span></div>
+            <span class="badge badge-{{ report.tier_color }}-custom fs-6 px-3 py-1 mt-1">
+                {{ report.performance_tier }}
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Key Performance Pillars -->
+<div class="row g-3 mb-4">
+    <!-- 1. Concept Depth -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card h-100">
+            <div class="metric-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                <i class="bi bi-diagram-3-fill"></i>
+            </div>
+            <div class="metric-value">{{ report.concept_depth.average_depth_score }}%</div>
+            <div class="metric-label">Concept Rigor (Bloom's)</div>
+            <span class="badge badge-{{ report.concept_depth.depth_badge }}-custom mt-2">{{ report.concept_depth.depth_rating.split(' ')[0] }} Depth</span>
+        </div>
+    </div>
+
+    <!-- 2. Speech Pacing -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card h-100">
+            <div class="metric-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                <i class="bi bi-speedometer2"></i>
+            </div>
+            <div class="metric-value">{{ report.audio_analytics.wpm }} <span class="fs-6 text-muted">WPM</span></div>
+            <div class="metric-label">Speech Pacing Cadence</div>
+            <span class="badge badge-{{ report.audio_analytics.pacing_color }}-custom mt-2">{{ report.audio_analytics.pacing_status.split(' ')[0] }}</span>
+        </div>
+    </div>
+
+    <!-- 3. Classroom Movement -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card h-100">
+            <div class="metric-icon" style="background: rgba(129, 140, 248, 0.15); color: #a5b4fc;">
+                <i class="bi bi-person-walking"></i>
+            </div>
+            <div class="metric-value">{{ report.vision_analytics.classroom_movement_score }}%</div>
+            <div class="metric-label">Board & Roaming Dynamic</div>
+            <span class="badge badge-info-custom mt-2">{{ report.vision_analytics.board_activity.active_writing_episodes }} Board Traces</span>
+        </div>
+    </div>
+
+    <!-- 4. Interactivity -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card h-100">
+            <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                <i class="bi bi-chat-quote-fill"></i>
+            </div>
+            <div class="metric-value">{{ report.interaction_metrics.questions_per_10_min }}</div>
+            <div class="metric-label">Questions / 10 Mins</div>
+            <span class="badge badge-warning-custom mt-2">{{ report.interaction_metrics.avg_wait_time_sec }}s Wait Time</span>
+        </div>
+    </div>
+</div>
+
+<!-- Core Analytics: Charts Section -->
+<div class="row g-4 mb-4">
+    <!-- Language & Code Switching Analysis -->
+    <div class="col-lg-4">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-translate text-info me-2"></i> Language Breakdown</h5>
+            </div>
+            <div style="position: relative; height: 210px;" class="mb-3">
+                <canvas id="languageChart"></canvas>
+            </div>
+            <div class="p-2 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 small text-center">
+                <span class="text-info fw-bold">Dominant Medium:</span> {{ report.audio_analytics.language_distribution.primary_language }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bloom's Taxonomy Cognitive Depth -->
+    <div class="col-lg-5">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-bar-chart-steps text-purple me-2" style="color: #a5b4fc;"></i> Bloom's Taxonomy Rigor</h5>
+                <span class="badge badge-info-custom">5 Levels</span>
+            </div>
+            <div style="position: relative; height: 250px;">
+                <canvas id="bloomsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Classroom Presence Distribution -->
+    <div class="col-lg-3">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-geo-alt-fill text-success me-2"></i> Zone Presence</h5>
+            </div>
+            <div style="position: relative; height: 210px;" class="mb-3">
+                <canvas id="presenceChart"></canvas>
+            </div>
+            <div class="small text-muted text-center">
+                {{ report.vision_analytics.board_activity.board_utilization_rating }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LEFTOVER & UNCOVERED TOPICS ALERT (CRITICAL PEDAGOGICAL METRIC) -->
+<div class="glass-card p-4 mb-4 border-start border-4 border-warning" style="background: rgba(120, 53, 15, 0.15);">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h5 class="text-warning fw-bold mb-1"><i class="bi bi-exclamation-diamond-fill me-2"></i> Leftover & Incomplete Concept Analysis</h5>
+            <p class="text-muted small mb-0">Discrepancy detected between planned syllabus objectives and lecture execution time limits.</p>
+        </div>
+        <span class="badge badge-warning-custom fs-6">{{ report.leftover_analysis.coverage_percentage }}% Syllabus Covered</span>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 h-100">
+                <div class="text-success fw-bold small mb-2"><i class="bi bi-check2-circle me-1"></i> Successfully Covered in This Session:</div>
+                <ul class="text-muted small ps-3 mb-0" style="line-height: 1.8;">
+                    {% for top in report.leftover_analysis.successfully_covered %}
+                    <li class="text-white">{{ top }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-danger border-opacity-50 h-100">
+                <div class="text-danger fw-bold small mb-2"><i class="bi bi-x-circle-fill me-1"></i> Unfinished / Leftover Topics (Deferred):</div>
+                <ul class="text-danger ps-3 mb-2" style="line-height: 1.8;">
+                    {% for left in report.leftover_analysis.uncovered_subtopics %}
+                    <li class="fw-bold">{{ left }}</li>
+                    {% endfor %}
+                </ul>
+                <small class="text-muted d-block border-top border-secondary border-opacity-25 pt-2" style="font-size: 11px;">
+                    <strong>Root Cause:</strong> {{ report.leftover_analysis.time_shortage_trigger }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actionable Suggestions for Faculty Improvement -->
+<div class="glass-card p-4 mb-4">
+    <h5 class="text-white mb-3"><i class="bi bi-lightbulb-fill text-warning me-2"></i> Actionable Pedagogical Recommendations</h5>
+    <p class="text-muted small mb-4">Targeted interventions derived from speech tempo, cognitive depth, and classroom movement data to enhance lecture delivery:</p>
+
+    <div class="row g-3">
+        {% for s in report.actionable_suggestions %}
+        <div class="col-md-6">
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-info small fw-bold">{{ s.pillar }}</span>
+                    <span class="badge badge-{{ s.badge }}-custom">{{ s.badge|upper }}</span>
+                </div>
+                <h6 class="text-white fw-bold mb-2">{{ s.title }}</h6>
+                <p class="text-muted small mb-0" style="line-height: 1.6;">{{ s.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Transcript Sample & Discourse Evidence -->
+<div class="glass-card p-4 mb-4">
+    <h5 class="text-white mb-2"><i class="bi bi-file-earmark-text text-info me-2"></i> Spoken Discourse Excerpt & Pause Log</h5>
+    <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-25 font-monospace text-muted small" style="line-height: 1.7;">
+        "{{ report.audio_analytics.transcript_sample }}"
+    </div>
+    <div class="d-flex justify-content-between mt-3 text-muted small">
+        <span>Total Words: <strong>{{ report.audio_analytics.total_words }}</strong></span>
+        <span>Natural Pauses: <strong>{{ report.audio_analytics.pause_metrics.total_pauses }}</strong></span>
+        <span>Vocal Articulation Score: <strong class="text-info">{{ report.audio_analytics.clarity_score }}/100</strong></span>
+    </div>
+</div>
+
+<!-- Official Institutional Sign-Off (Printable) -->
+<div class="glass-card p-4 text-center">
+    <div class="row text-center mt-3 pt-3 border-top border-secondary border-opacity-25">
+        <div class="col-4">
+            <div class="text-white fw-bold">{{ report.faculty_name }}</div>
+            <small class="text-muted">Faculty Member</small>
+        </div>
+        <div class="col-4">
+            <div class="text-white fw-bold">Md Mehedi Hasan</div>
+            <small class="text-muted">Academic Mentor & Assistant Professor</small>
+        </div>
+        <div class="col-4">
+            <div class="text-white fw-bold">VidNetra AI Auditor</div>
+            <small class="text-muted">Faculty of Engg & Tech, Parul University</small>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Language Breakdown Donut Chart
+        const langCtx = document.getElementById('languageChart').getContext('2d');
+        const langData = {{ report.audio_analytics.language_distribution | tojson }};
+        
+        new Chart(langCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['English', 'Vernacular / Regional', 'Technical Terms'],
+                datasets: [{
+                    data: [langData.english_pct, langData.vernacular_pct, langData.technical_vocab_pct],
+                    backgroundColor: ['#38bdf8', '#fbbf24', '#a5b4fc'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 10, font: { size: 11 } } }
+                },
+                cutout: '65%'
+            }
+        });
+
+        // 2. Bloom's Taxonomy Rigor Bar Chart
+        const bloomsCtx = document.getElementById('bloomsChart').getContext('2d');
+        const bloomsData = {{ report.concept_depth.blooms_taxonomy | tojson }};
+        
+        new Chart(bloomsCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(bloomsData).map(k => k.split(' ')[0]),
+                datasets: [{
+                    label: 'Mastery & Coverage (%)',
+                    data: Object.values(bloomsData),
+                    backgroundColor: ['#38bdf8', '#60a5fa', '#34d399', '#fbbf24', '#f43f5e'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#cbd5e1' } },
+                    y: { min: 0, max: 100, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // 3. Zone Presence Chart
+        const presenceCtx = document.getElementById('presenceChart').getContext('2d');
+        const presenceData = {{ report.vision_analytics.presence_distribution | tojson }};
+        
+        new Chart(presenceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Board/Screen', 'Podium/Desk', 'Roaming Class'],
+                datasets: [{
+                    data: [
+                        presenceData.board_presence_pct, 
+                        presenceData.podium_presence_pct, 
+                        presenceData.roaming_classroom_pct
+                    ],
+                    backgroundColor: ['#34d399', '#60a5fa', '#a5b4fc'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 10, font: { size: 11 } } }
+                },
+                cutout: '65%'
+            }
+        });
+    });
+</script>
+{% endblock %}

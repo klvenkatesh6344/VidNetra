@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - Student & Parent Portal{% endblock %}
+{% block page_title %}Student & Parent Attendance Portal{% endblock %}
+
+{% block content %}
+<!-- Search Banner -->
+<div class="glass-card p-4 mb-4 text-center">
+    <h4 class="text-white mb-2">Track Student Attendance & Engagement</h4>
+    <p class="text-muted small mb-4">Search by student name or roll number to view verified contactless attendance records and behavioral compliance.</p>
+    
+    <form method="GET" action="{{ url_for('student_portal') }}" class="d-flex justify-content-center">
+        <div class="input-group" style="max-width: 600px;">
+            <input type="text" name="search" class="form-control form-control-custom py-3" placeholder="Enter Student Name (e.g. kalyan) or Roll No..." value="{{ query }}">
+            <button class="btn btn-vidnetra px-4" type="submit">
+                <i class="bi bi-search"></i> Search Profile
+            </button>
+        </div>
+    </form>
+
+    <div class="mt-3 small text-muted">
+        <span>Quick Samples: </span>
+        <a href="{{ url_for('student_portal', search='kalyan') }}" class="badge badge-info-custom text-decoration-none me-1">kalyan</a>
+        <a href="{{ url_for('student_portal', search='rayudu') }}" class="badge badge-info-custom text-decoration-none me-1">rayudu</a>
+        <a href="{{ url_for('student_portal', search='surya') }}" class="badge badge-info-custom text-decoration-none me-1">surya</a>
+        <a href="{{ url_for('student_portal', search='hasan') }}" class="badge badge-info-custom text-decoration-none me-1">hasan</a>
+        <a href="{{ url_for('student_portal', search='sunderam') }}" class="badge badge-info-custom text-decoration-none">sunderam</a>
+    </div>
+</div>
+
+{% if result %}
+<div class="row g-4 mb-4">
+    <!-- Student Profile Card -->
+    <div class="col-lg-4">
+        <div class="glass-card p-4 h-100 text-center">
+            <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, #0ea5e9, #6366f1); display: flex; align-items: center; justify-content: center; font-size: 36px; color: white;">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            
+            <h4 class="text-white mb-1">{{ result.student.name }}</h4>
+            <span class="badge badge-info-custom mb-3">{{ result.student.department }}</span>
+            
+            <div class="text-start mt-3 pt-3 border-top border-secondary border-opacity-25">
+                <div class="mb-2 small">
+                    <span class="text-muted">Roll Number:</span>
+                    <strong class="text-white float-end font-monospace">{{ result.student.roll_no }}</strong>
+                </div>
+                <div class="mb-2 small">
+                    <span class="text-muted">Registered Email:</span>
+                    <strong class="text-info float-end">{{ result.student.email if result.student.email else 'N/A' }}</strong>
+                </div>
+                <div class="mb-2 small">
+                    <span class="text-muted">Face Biometrics:</span>
+                    <span class="badge badge-success-custom float-end">Verified Active</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Statistics & Meter -->
+    <div class="col-lg-8">
+        <div class="glass-card p-4 h-100">
+            <h5 class="text-white mb-4"><i class="bi bi-pie-chart-fill text-info me-2"></i> Attendance Overview</h5>
+            
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 text-center">
+                        <div class="text-muted small mb-1">Attendance Rate</div>
+                        <div class="display-6 fw-bold text-success font-monospace">{{ result.rate }}%</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 text-center">
+                        <div class="text-muted small mb-1">Classes Attended</div>
+                        <div class="display-6 fw-bold text-white font-monospace">{{ result.present_count }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 text-center">
+                        <div class="text-muted small mb-1">Total Active Days</div>
+                        <div class="display-6 fw-bold text-info font-monospace">{{ result.total_active_days }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Health Indicator -->
+            <div>
+                <div class="d-flex justify-content-between text-muted small mb-1">
+                    <span>Attendance Threshold Compliance</span>
+                    <span>Min Required: 75%</span>
+                </div>
+                <div class="progress bg-dark" style="height: 14px; border-radius: 7px;">
+                    <div class="progress-bar {% if result.rate >= 75 %}bg-success{% else %}bg-danger{% endif %}" 
+                         role="progressbar" style="width: {{ result.rate }}%;" 
+                         aria-valuenow="{{ result.rate }}" aria-valuemin="0" aria-valuemax="100">
+                         {{ result.rate }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed History Table -->
+<div class="glass-card p-4">
+    <h5 class="text-white mb-3"><i class="bi bi-clock-history text-success me-2"></i> Verification Timeline for {{ result.student.name }}</h5>
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Time Stamp</th>
+                    <th>Biometric Status</th>
+                    <th>Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if result.history %}
+                    {% for h in result.history %}
+                    <tr>
+                        <td class="text-muted">{{ loop.index }}</td>
+                        <td><span class="font-monospace text-info">{{ h.Date }}</span></td>
+                        <td><span class="font-monospace text-white">{{ h.Time }}</span></td>
+                        <td><span class="badge badge-success-custom">AI Verified (100%)</span></td>
+                        <td><small class="text-muted">Contactless Face Recognition</small></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">No historical attendance logged for this student yet.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% elif query %}
+<div class="glass-card p-5 text-center text-muted">
+    <i class="bi bi-search fs-1 d-block mb-3 text-secondary"></i>
+    <h5>No student found matching "{{ query }}"</h5>
+    <p class="small">Please verify the name or roll number, or register the student in the Enrollment Studio.</p>
+</div>
+{% endif %}
+{% endblock %}

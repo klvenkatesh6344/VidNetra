@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - Executive AI Dashboard{% endblock %}
+{% block page_title %}Executive AI Dashboard{% endblock %}
+
+{% block content %}
+<!-- Quick System Overview -->
+<div class="row g-3 mb-4">
+    <!-- Enrolled Students Card -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card">
+            <div class="metric-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="metric-value">{{ stats.enrolled_count }}</div>
+            <div class="metric-label">Enrolled Students</div>
+        </div>
+    </div>
+
+    <!-- Today's Attendance -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card">
+            <div class="metric-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                <i class="bi bi-calendar-check-fill"></i>
+            </div>
+            <div class="metric-value">{{ stats.today_count }} <span class="fs-6 text-muted font-monospace">({{ stats.attendance_rate }}%)</span></div>
+            <div class="metric-label">Marked Present Today</div>
+        </div>
+    </div>
+
+    <!-- Classroom Engagement Score -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card">
+            <div class="metric-icon" style="background: rgba(129, 140, 248, 0.15); color: #818cf8;">
+                <i class="bi bi-speedometer2"></i>
+            </div>
+            <div class="metric-value">{{ stats.engagement_score }}%</div>
+            <div class="metric-label">Classroom Engagement Index</div>
+        </div>
+    </div>
+
+    <!-- Active Incidents / Alerts -->
+    <div class="col-md-3">
+        <div class="glass-card metric-card">
+            <div class="metric-icon" style="background: rgba(239, 68, 68, 0.2); color: #ff6b6b;">
+                <i class="bi bi-shield-exclamation"></i>
+            </div>
+            <div class="metric-value">{{ stats.active_incidents }}</div>
+            <div class="metric-label">Logged Incidents</div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Launch Mode Banners -->
+<div class="glass-card p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-white mb-0"><i class="bi bi-camera-video-fill text-info me-2"></i> Launch Real-Time AI Camera Streams & Pedagogical Auditor</h5>
+        <a href="{{ url_for('teaching_auditor') }}" class="btn btn-sm btn-outline-info">
+            <i class="bi bi-journal-bookmark-fill me-1"></i> Open Teaching Auditor
+        </a>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <a href="{{ url_for('attendance_live') }}" class="btn-vidnetra w-100 justify-content-center py-3">
+                <i class="bi bi-person-bounding-box"></i> Face Attendance
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('classroom_monitor') }}" class="btn-secondary-custom w-100 justify-content-center py-3 text-warning border-warning">
+                <i class="bi bi-phone-vibrate"></i> Phone Usage Monitor
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('crowd_monitor') }}" class="btn-secondary-custom w-100 justify-content-center py-3 text-info border-info">
+                <i class="bi bi-people-fill"></i> Crowd & Stampede
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('exam_proctoring') }}" class="btn-secondary-custom w-100 justify-content-center py-3 text-success border-success">
+                <i class="bi bi-shield-lock-fill"></i> Exam Proctoring
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Analytics Charts Section -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-graph-up-arrow text-info me-2"></i> Attendance Activity Trends</h5>
+                <span class="badge badge-info-custom">Daily Check-ins</span>
+            </div>
+            <div style="position: relative; height: 260px;">
+                <canvas id="attendanceTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-pie-chart-fill text-purple me-2"></i> Enrolled Departments</h5>
+            </div>
+            <div style="position: relative; height: 260px;">
+                <canvas id="departmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tables: Recent Attendance & Recent Incidents -->
+<div class="row g-4">
+    <!-- Today's Attendance Live Table -->
+    <div class="col-lg-7">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-clock-history text-success me-2"></i> Today's Check-in Log</h5>
+                <a href="{{ url_for('attendance_records') }}" class="text-info text-decoration-none small">View Full History <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Roll Number</th>
+                            <th>Department</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="liveAttendanceTableBody">
+                        {% if stats.today_records %}
+                            {% for rec in stats.today_records %}
+                            <tr>
+                                <td><strong class="text-info">{{ rec.name }}</strong></td>
+                                <td>{{ rec.roll_no }}</td>
+                                <td>{{ rec.department }}</td>
+                                <td><span class="badge badge-success-custom">{{ rec.time }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">No attendance marked yet today. Start the Live Attendance camera to mark!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Incident / Security Log -->
+    <div class="col-lg-5">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i> Recent AI Alerts</h5>
+                <span class="badge badge-danger-custom">Live Log</span>
+            </div>
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Details</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if stats.recent_incidents %}
+                            {% for inc in stats.recent_incidents %}
+                            <tr>
+                                <td>
+                                    <span class="badge badge-{{ inc.severity if inc.severity != 'critical' else 'danger' }}-custom">
+                                        {{ inc.type }}
+                                    </span>
+                                </td>
+                                <td class="small">{{ inc.details }}</td>
+                                <td class="text-muted small">{{ inc.timestamp.split(' ')[1] }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-4">No incidents detected. All sessions normal.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Initialize Dashboard Charts
+    document.addEventListener("DOMContentLoaded", function () {
+        // Attendance Trend Chart
+        const trendCtx = document.getElementById('attendanceTrendChart').getContext('2d');
+        const chartDates = {{ stats.chart_dates | tojson }};
+        const chartCounts = {{ stats.chart_counts | tojson }};
+
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: chartDates.length ? chartDates : ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                datasets: [{
+                    label: 'Check-ins',
+                    data: chartCounts.length ? chartCounts : [12, 19, 15, 17, 14],
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#38bdf8',
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', stepSize: 1 } }
+                }
+            }
+        });
+
+        // Department Doughnut Chart
+        const deptCtx = document.getElementById('departmentChart').getContext('2d');
+        const deptLabels = {{ stats.dept_labels | tojson }};
+        const deptValues = {{ stats.dept_values | tojson }};
+
+        new Chart(deptCtx, {
+            type: 'doughnut',
+            data: {
+                labels: deptLabels.length ? deptLabels : ['CSE', 'AI & DS', 'IT', 'Cyber Sec'],
+                datasets: [{
+                    data: deptValues.length ? deptValues : [4, 3, 2, 1],
+                    backgroundColor: ['#38bdf8', '#818cf8', '#34d399', '#f59e0b', '#ec4899'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // Start live poller for today's check-ins
+        startAttendanceLivePoller();
+    });
+</script>
+{% endblock %}

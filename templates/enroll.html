@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - Student Facial Enrollment Studio{% endblock %}
+{% block page_title %}Student Facial Enrollment Studio{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Enrollment Form & Camera Studio -->
+    <div class="col-lg-6">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-camera-fill text-info me-2"></i> Face Capture Studio</h5>
+                <span class="badge badge-info-custom">AI Encoding</span>
+            </div>
+            
+            <p class="text-muted small mb-4">
+                Capture the student's face with the webcam or upload a clear frontal portrait. The AI will extract 128-d deep facial embeddings and send a confirmation email upon registration.
+            </p>
+
+            <!-- Interactive Webcam Box -->
+            <div class="video-container mb-3 text-center" style="max-height: 280px; position: relative;">
+                <video id="enrollVideo" autoplay playsinline style="width: 100%; height: 260px; object-fit: cover; border-radius: 12px;"></video>
+                <img id="photoPreview" src="" style="width: 100%; height: 260px; object-fit: cover; border-radius: 12px; display: none;" alt="Captured Photo">
+                <canvas id="enrollCanvas" style="display: none;"></canvas>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <button type="button" id="captureBtn" class="btn-vidnetra" onclick="captureEnrollSnapshot()">
+                    <i class="bi bi-camera-fill"></i> Snap Webcam Photo
+                </button>
+                <button type="button" id="retakeBtn" class="btn-secondary-custom" onclick="retakeEnrollSnapshot()" style="display: none;">
+                    <i class="bi bi-arrow-repeat"></i> Retake Photo
+                </button>
+            </div>
+
+            <div id="cameraStatus" class="mb-3 text-center small"></div>
+
+            <hr class="border-secondary border-opacity-25 my-4">
+
+            <!-- Student Info Form -->
+            <form id="enrollForm" method="POST" action="{{ url_for('enroll') }}" enctype="multipart/form-data">
+                <input type="hidden" id="imageB64Input" name="image_base64" value="">
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">STUDENT FULL NAME *</label>
+                    <input type="text" class="form-control-custom" id="student_name" name="student_name" placeholder="e.g. M Kalyan" required>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">ROLL / ENROLLMENT NO</label>
+                        <input type="text" class="form-control-custom" id="roll_no" name="roll_no" placeholder="e.g. 2303031240571">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">STUDENT EMAIL</label>
+                        <input type="email" class="form-control-custom" id="student_email" name="student_email" placeholder="e.g. kalyan@paruluniversity.ac.in">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">DEPARTMENT / BRANCH</label>
+                    <select class="form-control-custom" id="department" name="department">
+                        <option value="AI & Data Science">AI & Data Science</option>
+                        <option value="Computer Science & Engineering" selected>Computer Science & Engineering</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Cyber Security">Cyber Security</option>
+                        <option value="Faculty of Engg & Tech">Faculty of Engg & Tech</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">OR UPLOAD PHOTO FILE (JPG/PNG)</label>
+                    <input type="file" class="form-control-custom" name="student_photo" id="student_photo" accept="image/*">
+                </div>
+
+                <div class="d-flex gap-3">
+                    <button type="button" class="btn-vidnetra flex-grow-1 justify-content-center" onclick="submitEnrollment()">
+                        <i class="bi bi-check2-circle"></i> Complete Facial Registration
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enrolled Students Directory -->
+    <div class="col-lg-6">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-people text-success me-2"></i> Enrolled Directory ({{ students|length }})</h5>
+                <span class="badge badge-success-custom">Active Database</span>
+            </div>
+
+            <p class="text-muted small mb-3">
+                These students have their facial encodings registered and will be automatically recognized during attendance and classroom monitoring.
+            </p>
+
+            <div class="table-responsive" style="max-height: 580px; overflow-y: auto;">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Roll Number</th>
+                            <th>Department</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if students %}
+                            {% for s in students %}
+                            <tr>
+                                <td>
+                                    <div class="fw-bold text-info">{{ s.name }}</div>
+                                    <small class="text-muted">{{ s.email if s.email else 'No email registered' }}</small>
+                                </td>
+                                <td><span class="font-monospace">{{ s.roll_no }}</span></td>
+                                <td><small>{{ s.department }}</small></td>
+                                <td>
+                                    <a href="{{ url_for('delete_student', name=s.name) }}" 
+                                       class="btn btn-sm btn-outline-danger" 
+                                       onclick="return confirm('Are you sure you want to remove {{ s.name }}?');"
+                                       title="Remove Student Profile">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">No students enrolled yet. Use the form on the left to add your first student.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initEnrollWebcam();
+    });
+
+    async function submitEnrollment() {
+        const name = document.getElementById('student_name').value.trim();
+        const roll_no = document.getElementById('roll_no').value.trim();
+        const email = document.getElementById('student_email').value.trim();
+        const department = document.getElementById('department').value;
+        const b64 = document.getElementById('imageB64Input').value;
+        const fileInput = document.getElementById('student_photo');
+
+        if (!name) {
+            alert('Please enter a student name.');
+            return;
+        }
+
+        // If file input has a file, submit normal form
+        if (fileInput.files.length > 0) {
+            document.getElementById('enrollForm').submit();
+            return;
+        }
+
+        // If webcam base64 is captured, submit via AJAX
+        if (b64) {
+            try {
+                const res = await fetch('/api/enroll_camera', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        student_name: name,
+                        roll_no: roll_no,
+                        student_email: email,
+                        department: department,
+                        image_base64: b64
+                    })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    AudioAlerts.playSuccessChime();
+                    alert(data.message);
+                    window.location.reload();
+                } else {
+                    alert('Enrollment failed: ' + data.message);
+                }
+            } catch (err) {
+                alert('Error submitting enrollment: ' + err);
+            }
+        } else {
+            alert('Please either snap a webcam photo or upload an image file first.');
+        }
+    }
+</script>
+{% endblock %}

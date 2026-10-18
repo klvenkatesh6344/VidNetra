@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - Live Facial Recognition Attendance{% endblock %}
+{% block page_title %}Real-Time Facial Attendance Monitor{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Live AI Video Stream -->
+    <div class="col-lg-7">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="text-white mb-0"><i class="bi bi-camera-video-fill text-info me-2"></i> Live Video Stream</h5>
+                    <small class="text-muted">High-accuracy 128-d facial embedding recognition</small>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-outline-info" onclick="AudioAlerts.playSuccessChime()" title="Test Audio Chime">
+                        <i class="bi bi-volume-up-fill"></i> Sound Test
+                    </button>
+                    <span class="badge badge-success-custom">AI Active</span>
+                </div>
+            </div>
+
+            <!-- Video Feed Container -->
+            <div class="video-container mb-3">
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    <span>LIVE AI RECOGNITION</span>
+                </div>
+                <img src="{{ url_for('video_feed', mode='attendance') }}" class="video-stream-img" alt="Facial Recognition Attendance Live Stream">
+            </div>
+
+            <!-- Status Banner & Instructions -->
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="fs-4 text-info"><i class="bi bi-shield-check"></i></div>
+                    <div>
+                        <div class="fw-bold text-white small">Automated Once-Per-Day Logging</div>
+                        <div class="text-muted" style="font-size: 12px;">Face matches with <50% Euclidean distance are instantly marked present with audio confirmation.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Present Student Feed & Stats -->
+    <div class="col-lg-5">
+        <div class="glass-card p-4 h-100 d-flex flex-direction-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-person-check-fill text-success me-2"></i> Present Today</h5>
+                <span class="badge badge-success-custom fs-6">
+                    <span id="livePresentCount">{{ today_records|length }}</span> / {{ total_enrolled }} Enrolled
+                </span>
+            </div>
+
+            <p class="text-muted small mb-3">
+                Students recognized by the camera will appear below automatically with their exact timestamp:
+            </p>
+
+            <div class="table-responsive flex-grow-1" style="max-height: 480px; overflow-y: auto;">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Roll No</th>
+                            <th>Department</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="liveAttendanceTableBody">
+                        {% if today_records %}
+                            {% for rec in today_records %}
+                            <tr>
+                                <td><strong class="text-info">{{ rec.name }}</strong></td>
+                                <td><small>{{ rec.roll_no }}</small></td>
+                                <td><small>{{ rec.department }}</small></td>
+                                <td><span class="badge badge-success-custom">{{ rec.time }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    <i class="bi bi-person-bounding-box fs-1 d-block mb-2 text-secondary"></i>
+                                    Look into the camera to mark your attendance!
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Manual Attendance Check-in Bar -->
+            <div class="mt-4 pt-3 border-top border-secondary border-opacity-25">
+                <label class="form-label text-muted small fw-bold">MANUAL CHECK-IN OVERRIDE</label>
+                <div class="input-group">
+                    <input type="text" id="manualName" class="form-control form-control-custom" placeholder="Enter student name">
+                    <button class="btn btn-vidnetra" type="button" onclick="markManualAttendance()">
+                        <i class="bi bi-check-lg"></i> Mark Present
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        startAttendanceLivePoller();
+    });
+
+    async function markManualAttendance() {
+        const nameInput = document.getElementById('manualName');
+        const name = nameInput.value.trim();
+        if (!name) return;
+
+        try {
+            const res = await fetch('/api/mark_manual', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name })
+            });
+            const data = await res.json();
+            if (data.success) {
+                AudioAlerts.playSuccessChime();
+                nameInput.value = '';
+            } else {
+                alert(data.message);
+            }
+        } catch (e) {
+            console.error('Manual attendance error:', e);
+        }
+    }
+</script>
+{% endblock %}

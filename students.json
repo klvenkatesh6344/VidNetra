@@ -1,0 +1,72 @@
+[
+    {
+        "name": "rayudu",
+        "roll_no": "2303031240501",
+        "email": "rayudu@paruluniversity.ac.in",
+        "department": "Computer Science & Engineering",
+        "enrolled_at": "2026-01-20 10:00:00"
+    },
+    {
+        "name": "kalyan",
+        "roll_no": "2303031240571",
+        "email": "2303031240571@paruluniversity.ac.in",
+        "department": "AI & Data Science",
+        "enrolled_at": "2026-01-22 11:30:00"
+    },
+    {
+        "name": "sunderam",
+        "roll_no": "2303031240599",
+        "email": "2303031240599@paruluniversity.ac.in",
+        "department": "Computer Science & Engineering",
+        "enrolled_at": "2026-01-22 12:15:00"
+    },
+    {
+        "name": "saavan",
+        "roll_no": "2303031241174",
+        "email": "2303031241174@paruluniversity.ac.in",
+        "department": "Information Technology",
+        "enrolled_at": "2026-01-23 09:40:00"
+    },
+    {
+        "name": "bharath kumar",
+        "roll_no": "2303031240608",
+        "email": "2303031240608@paruluniversity.ac.in",
+        "department": "Computer Science & Engineering",
+        "enrolled_at": "2026-01-26 14:20:00"
+    },
+    {
+        "name": "hasan",
+        "roll_no": "FAC-CSE-042",
+        "email": "hasan@paruluniversity.ac.in",
+        "department": "Faculty of Engg & Tech",
+        "enrolled_at": "2026-01-27 10:00:00"
+    },
+    {
+        "name": "hanuman",
+        "roll_no": "2303031240722",
+        "email": "hanuman@paruluniversity.ac.in",
+        "department": "AI & Data Science",
+        "enrolled_at": "2026-02-01 16:10:00"
+    },
+    {
+        "name": "surya",
+        "roll_no": "2303031240833",
+        "email": "surya@paruluniversity.ac.in",
+        "department": "Cyber Security",
+        "enrolled_at": "2026-03-01 11:00:00"
+    },
+    {
+        "name": "nori sundara adithya",
+        "roll_no": "2303031240944",
+        "email": "adithya@paruluniversity.ac.in",
+        "department": "Computer Science & Engineering",
+        "enrolled_at": "2026-03-20 15:45:00"
+    },
+    {
+        "name": "teja",
+        "roll_no": "2303031240999",
+        "email": "teja@paruluniversity.ac.in",
+        "department": "AI & Data Science",
+        "enrolled_at": "2026-05-15 13:00:00"
+    }
+]

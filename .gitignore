@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Configuration with sensitive credentials (use config.example.json as template)
+config.json
+
+# Environment variables
+.env
+.env.local
+
+# Large uploaded lecture video files (avoid GitHub 100MB limit)
+teaching_audits/uploads/*
+!teaching_audits/uploads/.gitkeep
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Temporary scripts / logs
+*.log
+powershell.cmd
+test_verify.py
+
+# Sensitive biometric embeddings and local runtime logs (optional: keep directories via .gitkeep)
+face_data/*.npy
+!face_data/.gitkeep
+
+# Operating system files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

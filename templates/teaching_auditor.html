@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - AI Teaching Auditor & Faculty Analytics{% endblock %}
+{% block page_title %}AI Teaching Auditor & Lecture Intelligence{% endblock %}
+
+{% block content %}
+<!-- Top Header Showcase -->
+<div class="glass-card p-4 mb-4" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(99, 102, 241, 0.12));">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <div class="badge badge-info-custom mb-2">Multimodal CCTV & Video AI</div>
+            <h3 class="text-white fw-bold mb-1">Automated Lecture & Faculty Teaching Auditor</h3>
+            <p class="text-muted small mb-0">
+                Transforms 10–15 min sample CCTV videos (or full 45 min lectures) into deep pedagogical audits — assessing <strong>Language distribution</strong>, <strong>Bloom's Taxonomy concept depth</strong>, <strong>Leftover/uncovered topics</strong>, and <strong>Classroom movement dynamics</strong>.
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="badge badge-success-custom p-2 px-3 fs-6">
+                <i class="bi bi-cpu-fill me-1"></i> Fast Frame-Sampled POC Engine
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Option A: Custom Video Upload & Audit Launch -->
+    <div class="col-lg-6">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-cloud-arrow-up-fill text-info me-2"></i> Audit Custom Lecture Video</h5>
+                <span class="badge badge-info-custom">Upload Video</span>
+            </div>
+            
+            <p class="text-muted small mb-3">
+                Upload a 5–15 minute classroom video clip. The AI pipeline will extract keyframes, transcribe speech, detect code-switching, and grade concept depth.
+            </p>
+
+            <form id="uploadAuditForm" method="POST" action="{{ url_for('api_run_audit') }}" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">FACULTY / PROFESSOR NAME *</label>
+                    <input type="text" class="form-control-custom" name="faculty_name" placeholder="e.g. Dr. Ramesh Sharma" required>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">SUBJECT / COURSE *</label>
+                        <input type="text" class="form-control-custom" name="subject" placeholder="e.g. Machine Learning" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">DEPARTMENT</label>
+                        <select class="form-control-custom" name="department">
+                            <option value="Computer Science & Engineering" selected>Computer Science & Engg</option>
+                            <option value="AI & Data Science">AI & Data Science</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Cyber Security">Cyber Security</option>
+                            <option value="Faculty of Engg & Tech">Faculty of Engg & Tech</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">LESSON / TOPIC NAME *</label>
+                    <input type="text" class="form-control-custom" name="topic" placeholder="e.g. Support Vector Machines & Kernel Tricks" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">LECTURE CCTV VIDEO FILE (MP4, MKV, WEBM, AVI)</label>
+                    <input type="file" class="form-control-custom" name="lecture_video" accept="video/*">
+                    <small class="text-muted" style="font-size: 11px;">Supports 5–15 min POC videos for rapid local processing.</small>
+                </div>
+
+                <button type="button" class="btn-vidnetra w-100 justify-content-center py-3" onclick="submitCustomAudit()">
+                    <i class="bi bi-lightning-charge-fill"></i> Run Multimodal Teaching Audit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Option B: Pre-configured Academic Benchmarks (Instant 1-Click Testing) -->
+    <div class="col-lg-6">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0"><i class="bi bi-collection-play-fill text-warning me-2"></i> 1-Click Benchmark Demonstrations</h5>
+                <span class="badge badge-warning-custom">Proof of Concept</span>
+            </div>
+
+            <p class="text-muted small mb-3">
+                Instant test cases pre-calibrated with classroom CCTV feeds to demonstrate language breakdown, Bloom's cognitive depth, and leftover topic detection:
+            </p>
+
+            <div class="d-flex flex-column gap-3">
+                {% for b in benchmarks %}
+                <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 hover-border-info transition-all">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <strong class="text-info">{{ b.subject }}</strong>
+                            <div class="text-white fw-bold">{{ b.topic }}</div>
+                        </div>
+                        <span class="badge badge-info-custom">{{ b.test_video_duration }}</span>
+                    </div>
+                    <p class="text-muted small mb-2">{{ b.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                        <small class="text-muted"><i class="bi bi-person-fill"></i> {{ b.faculty_name }} &bull; {{ b.department }}</small>
+                        <button class="btn btn-sm btn-outline-info" onclick="runBenchmarkAudit('{{ b.id }}', '{{ b.faculty_name }}', '{{ b.subject }}', '{{ b.topic }}', '{{ b.department }}')">
+                            <i class="bi bi-play-circle-fill"></i> Launch Audit
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Past Teaching Audit Reports Dossier -->
+<div class="glass-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-white mb-0"><i class="bi bi-journal-check text-success me-2"></i> Past Teaching Audit Reports</h5>
+        <span class="badge badge-success-custom">{{ reports|length }} Audits Generated</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Audit ID</th>
+                    <th>Faculty Name</th>
+                    <th>Course & Topic</th>
+                    <th>Score / Tier</th>
+                    <th>Duration</th>
+                    <th>Date & Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if reports %}
+                    {% for r in reports %}
+                    <tr>
+                        <td class="font-monospace text-info">{{ r.audit_id }}</td>
+                        <td>
+                            <strong class="text-white">{{ r.faculty_name }}</strong>
+                            <div class="small text-muted">{{ r.department }}</div>
+                        </td>
+                        <td>
+                            <div class="text-info fw-bold">{{ r.subject }}</div>
+                            <div class="small text-muted">{{ r.topic }}</div>
+                        </td>
+                        <td>
+                            <span class="badge badge-{{ r.tier_color }}-custom">
+                                {{ r.overall_score }}/100 &bull; {{ r.performance_tier.split(' ')[0] }} {{ r.performance_tier.split(' ')[1] }}
+                            </span>
+                        </td>
+                        <td><span class="font-monospace text-white">{{ r.video_duration_minutes }} min</span></td>
+                        <td><span class="font-monospace text-muted small">{{ r.timestamp }}</span></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('teaching_report', audit_id=r.audit_id) }}" class="btn btn-sm btn-vidnetra py-1 px-2" title="View Full Report">
+                                    <i class="bi bi-file-earmark-text-fill"></i> Report
+                                </a>
+                                <a href="{{ url_for('delete_teaching_audit', audit_id=r.audit_id) }}" class="btn btn-sm btn-outline-danger py-1 px-2" onclick="return confirm('Delete this audit report?');" title="Delete">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="bi bi-clipboard-pulse fs-1 d-block mb-2 text-secondary"></i>
+                            No teaching audits conducted yet. Launch a custom video audit or 1-click benchmark above.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal: Live 5-Stage Audit Progress Tracker -->
+<div class="modal fade" id="auditProgressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-info" style="background: rgba(10, 15, 29, 0.98);">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title text-white"><i class="bi bi-cpu-fill text-info me-2"></i> VidNetra AI Audit in Progress...</h5>
+            </div>
+            <div class="modal-body py-4 text-center">
+                <div class="spinner-border text-info mb-3" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                
+                <h5 id="modalStageText" class="text-white mb-2">Initializing Multimodal Neural Pipelines...</h5>
+                <p class="text-muted small mb-3">Processing video keyframes, audio transcription, Bloom's cognitive taxonomy, and leftover topic detection.</p>
+
+                <div class="progress bg-dark mb-3" style="height: 12px; border-radius: 6px;">
+                    <div id="modalProgressBar" class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" style="width: 15%;"></div>
+                </div>
+
+                <div class="row g-2 text-start small text-muted mt-3">
+                    <div class="col-12" id="step1"><i class="bi bi-check-circle-fill text-info me-2"></i> 1. Video Ingestion & Keyframe Sampling</div>
+                    <div class="col-12" id="step2"><i class="bi bi-circle text-secondary me-2"></i> 2. Audio Extraction & Code-Switching</div>
+                    <div class="col-12" id="step3"><i class="bi bi-circle text-secondary me-2"></i> 3. Teacher Movement & Whiteboard Presence</div>
+                    <div class="col-12" id="step4"><i class="bi bi-circle text-secondary me-2"></i> 4. Bloom's Taxonomy & Leftover Extraction</div>
+                    <div class="col-12" id="step5"><i class="bi bi-circle text-secondary me-2"></i> 5. Final Report Synthesis & Rubric Scoring</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let progressModal = null;
+    let pollerInterval = null;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        progressModal = new bootstrap.Modal(document.getElementById('auditProgressModal'));
+    });
+
+    async function submitCustomAudit() {
+        const form = document.getElementById('uploadAuditForm');
+        const formData = new FormData(form);
+
+        if (!formData.get('faculty_name') || !formData.get('subject') || !formData.get('topic')) {
+            alert("Please fill in faculty name, subject, and topic.");
+            return;
+        }
+
+        progressModal.show();
+        startProgressSimulation();
+
+        try {
+            const res = await fetch('/api/run_audit', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (data.success && data.report_id) {
+                setTimeout(() => {
+                    window.location.href = `/teaching_report/${data.report_id}`;
+                }, 1000);
+            } else {
+                alert("Audit failed: " + (data.message || "Unknown error"));
+                progressModal.hide();
+            }
+        } catch (e) {
+            alert("Error running audit: " + e);
+            progressModal.hide();
+        }
+    }
+
+    async function runBenchmarkAudit(benchmarkId, facultyName, subject, topic, department) {
+        progressModal.show();
+        startProgressSimulation();
+
+        const formData = new FormData();
+        formData.append('benchmark_id', benchmarkId);
+        formData.append('faculty_name', facultyName);
+        formData.append('subject', subject);
+        formData.append('topic', topic);
+        formData.append('department', department);
+
+        try {
+            const res = await fetch('/api/run_audit', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (data.success && data.report_id) {
+                setTimeout(() => {
+                    window.location.href = `/teaching_report/${data.report_id}`;
+                }, 1200);
+            } else {
+                alert("Benchmark audit failed: " + (data.message || "Unknown error"));
+                progressModal.hide();
+            }
+        } catch (e) {
+            alert("Error running benchmark audit: " + e);
+            progressModal.hide();
+        }
+    }
+
+    function startProgressSimulation() {
+        const bar = document.getElementById('modalProgressBar');
+        const text = document.getElementById('modalStageText');
+        let currentStep = 1;
+
+        const steps = [
+            { pct: 25, text: "Extracting audio and sampling keyframes...", stepId: "step1" },
+            { pct: 50, text: "Transcribing speech and detecting language code-switching...", stepId: "step2" },
+            { pct: 75, text: "Analyzing teacher positioning (Board vs Podium) and movement...", stepId: "step3" },
+            { pct: 90, text: "Evaluating Bloom's Taxonomy cognitive depth and leftover topics...", stepId: "step4" },
+            { pct: 100, text: "Synthesizing comprehensive Teaching Audit Report...", stepId: "step5" }
+        ];
+
+        let index = 0;
+        clearInterval(pollerInterval);
+        pollerInterval = setInterval(() => {
+            if (index < steps.length) {
+                bar.style.width = steps[index].pct + "%";
+                text.textContent = steps[index].text;
+                
+                const el = document.getElementById(steps[index].stepId);
+                if (el) {
+                    el.innerHTML = `<i class="bi bi-check-circle-fill text-success me-2"></i> ` + el.textContent.trim().substring(2);
+                }
+                index++;
+            }
+        }, 350);
+    }
+</script>
+{% endblock %}

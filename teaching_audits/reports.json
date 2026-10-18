@@ -1,0 +1,619 @@
+[
+    {
+        "audit_id": "AUD-22A8CAC4",
+        "timestamp": "2026-10-07 15:40:58",
+        "faculty_name": "Prof. Ananya Verma",
+        "subject": "Data Structures & Algorithms",
+        "topic": "Binary Search Trees & AVL Rotations",
+        "department": "Information Technology",
+        "video_source": "benchmark_sample_dsa_bst.mp4",
+        "video_duration_minutes": 10.0,
+        "overall_score": 71.1,
+        "performance_tier": "Tier B (Competent with Actionable Growth Areas)",
+        "tier_color": "warning",
+        "audio_analytics": {
+            "total_words": 133,
+            "duration_minutes": 10.0,
+            "wpm": 13.3,
+            "pacing_status": "Slow / Sluggish (Pacing needs acceleration)",
+            "pacing_color": "warning",
+            "language_distribution": {
+                "english_pct": 99.2,
+                "vernacular_pct": 3.0,
+                "technical_vocab_pct": 15.8,
+                "primary_language": "English (Standard Academic)"
+            },
+            "pause_metrics": {
+                "total_pauses": 22,
+                "pauses_per_minute": 2.2,
+                "avg_pause_duration_sec": 1.4,
+                "thinking_pauses": 16,
+                "dead_silence_count": 5
+            },
+            "clarity_score": 65,
+            "transcript_sample": "Welcome class. Today our focus is on Binary Search Trees and self-balancing AVL trees. First, let us recap the BST property: every node in the left subtree is strictly less than the root, and the right subtree is greater. Samajh aa raha hai? If we do an in-order traversal, what will be the output? It will always be sorted in ascending order. Let us trace an insertion example on the board: inserting 45, 12, 67, 34, 89. Now, what is the worst-case ..."
+        },
+        "vision_analytics": {
+            "duration_seconds": 600.0,
+            "sampled_frames_count": 300,
+            "presence_distribution": {
+                "board_presence_pct": 46.5,
+                "podium_presence_pct": 34.0,
+                "roaming_classroom_pct": 19.5
+            },
+            "board_activity": {
+                "active_writing_episodes": 14,
+                "board_utilization_rating": "High (Frequent Diagrammatic & Code Tracing)"
+            },
+            "gaze_orientation": {
+                "facing_students_pct": 64.0,
+                "facing_board_pct": 26.5,
+                "screen_laptop_focus_pct": 9.5
+            },
+            "classroom_movement_score": 84
+        },
+        "concept_depth": {
+            "average_depth_score": 79.8,
+            "depth_rating": "Moderate Depth (Good Practical Balance)",
+            "depth_badge": "info",
+            "blooms_taxonomy": {
+                "Remember (Recall & Terminology)": 86,
+                "Understand (Concepts & Analogies)": 93,
+                "Apply (Problem Solving & Code/Proofs)": 88,
+                "Analyze (Complexity & Edge Cases)": 67,
+                "Evaluate (Synthesis & Real-world Tradeoffs)": 65
+            }
+        },
+        "leftover_analysis": {
+            "planned_curriculum_topics": [
+                "BST Invariant Property",
+                "In-Order Traversal",
+                "Insertion Algorithm",
+                "Worst Case O(N) Degradation",
+                "AVL Rotations (LL, RR, LR, RL)",
+                "Node Deletion"
+            ],
+            "successfully_covered": [
+                "BST Invariant Property",
+                "In-Order Traversal",
+                "Insertion Algorithm",
+                "Single Rotations (LL)"
+            ],
+            "uncovered_subtopics": [
+                "Double Rotations (LR, RL) in AVL Trees",
+                "BST Node Deletion (3 Cases)"
+            ],
+            "coverage_percentage": 66.7,
+            "time_shortage_trigger": "Detailed tracing of insertion took 18 minutes, leaving double rotations and deletion for next week."
+        },
+        "interaction_metrics": {
+            "total_questions_asked": 2,
+            "questions_per_10_min": 2.0,
+            "question_type_breakdown": {
+                "comprehension_checks": 1,
+                "open_ended_critical": 0,
+                "rhetorical_transitions": 0
+            },
+            "avg_wait_time_sec": 3.8,
+            "engagement_score": 64
+        },
+        "actionable_suggestions": [
+            {
+                "pillar": "Speech Pacing & Clarity",
+                "badge": "info",
+                "title": "Increase Energy & Transition Pace",
+                "description": "Your speech pace was measured at 13.3 WPM. A slightly crisper cadence between slide transitions will maintain higher student alertness."
+            },
+            {
+                "pillar": "Time Management & Topic Closure",
+                "badge": "danger",
+                "title": "Mitigate Leftover Topics: Double Rotations (LR, RL) in AVL Trees",
+                "description": "The class left 2 subtopic(s) uncovered due to prolonged introductory tracing. Allocate a strict 10-minute countdown checkpoint to ensure proofs and edge-cases are not rushed at the bell."
+            },
+            {
+                "pillar": "Student Interaction & Gaze",
+                "badge": "info",
+                "title": "Extend Question Wait-Time to 5\u20137 Seconds",
+                "description": "After asking conceptual questions, hold a 5-second silence before answering your own question. This prompts higher voluntary participation from quieter rows."
+            },
+            {
+                "pillar": "Classroom Dynamics & Board Presence",
+                "badge": "success",
+                "title": "Strong Visual Blackboard Utilization",
+                "description": "Commendable board utilization (46.5% of class). Step-by-step blackboard derivations clearly reinforced abstract concepts."
+            }
+        ]
+    },
+    {
+        "audit_id": "AUD-1DE3D810",
+        "timestamp": "2026-08-22 22:43:40",
+        "faculty_name": "K L Venkatesh",
+        "subject": "Data Structures Algorithms",
+        "topic": "Quick Sort",
+        "department": "Computer Science & Engineering",
+        "video_source": "1787418061_2.8.1  QuickSort Algorithm - Abdul Bari (1080p, h264).mp4",
+        "video_duration_minutes": 10.0,
+        "overall_score": 67.7,
+        "performance_tier": "Tier B (Competent with Actionable Growth Areas)",
+        "tier_color": "warning",
+        "audio_analytics": {
+            "total_words": 104,
+            "duration_minutes": 10.0,
+            "wpm": 10.4,
+            "pacing_status": "Slow / Sluggish (Pacing needs acceleration)",
+            "pacing_color": "warning",
+            "language_distribution": {
+                "english_pct": 100.0,
+                "vernacular_pct": 3.0,
+                "technical_vocab_pct": 30.8,
+                "primary_language": "English (Standard Academic)"
+            },
+            "pause_metrics": {
+                "total_pauses": 17,
+                "pauses_per_minute": 1.7,
+                "avg_pause_duration_sec": 1.4,
+                "thinking_pauses": 12,
+                "dead_silence_count": 4
+            },
+            "clarity_score": 65,
+            "transcript_sample": "Good morning students. Today we will analyze Deadlock conditions and Resource Allocation Graphs in Operating Systems. For a deadlock to occur, four Coffman conditions must hold simultaneously: Mutual Exclusion, Hold and Wait, No Preemption, and Circular Wait. Let us visualize this graph on the board. Look at process P1 requesting resource R1. How can we prevent deadlocks? We can either use Deadlock Prevention, Deadlock Avoidance with Banker's alg..."
+        },
+        "vision_analytics": {
+            "duration_seconds": 822.1,
+            "sampled_frames_count": 412,
+            "presence_distribution": {
+                "board_presence_pct": 50.2,
+                "podium_presence_pct": 29.9,
+                "roaming_classroom_pct": 19.9
+            },
+            "board_activity": {
+                "active_writing_episodes": 326,
+                "board_utilization_rating": "High (Frequent Diagrammatic Tracing)"
+            },
+            "gaze_orientation": {
+                "facing_students_pct": 62.5,
+                "facing_board_pct": 28.0,
+                "screen_laptop_focus_pct": 9.5
+            },
+            "classroom_movement_score": 70
+        },
+        "concept_depth": {
+            "average_depth_score": 79.8,
+            "depth_rating": "Moderate Depth (Good Practical Balance)",
+            "depth_badge": "info",
+            "blooms_taxonomy": {
+                "Remember (Recall & Terminology)": 86,
+                "Understand (Concepts & Analogies)": 93,
+                "Apply (Problem Solving & Code/Proofs)": 88,
+                "Analyze (Complexity & Edge Cases)": 67,
+                "Evaluate (Synthesis & Real-world Tradeoffs)": 65
+            }
+        },
+        "leftover_analysis": {
+            "planned_curriculum_topics": [
+                "Coffman 4 Deadlock Conditions",
+                "Resource Allocation Graph",
+                "Deadlock Prevention",
+                "Banker's Safety Algorithm",
+                "Deadlock Recovery & Preemption"
+            ],
+            "successfully_covered": [
+                "Coffman 4 Deadlock Conditions",
+                "Resource Allocation Graph",
+                "Banker's Safety Algorithm"
+            ],
+            "uncovered_subtopics": [
+                "Deadlock Recovery Strategies",
+                "Process Termination & Resource Preemption"
+            ],
+            "coverage_percentage": 60.0,
+            "time_shortage_trigger": "Banker's algorithm tracing required full board explanation; recovery mechanisms were left as reading assignment."
+        },
+        "interaction_metrics": {
+            "total_questions_asked": 1,
+            "questions_per_10_min": 1.0,
+            "question_type_breakdown": {
+                "comprehension_checks": 0,
+                "open_ended_critical": 0,
+                "rhetorical_transitions": 0
+            },
+            "avg_wait_time_sec": 3.8,
+            "engagement_score": 60
+        },
+        "actionable_suggestions": [
+            {
+                "pillar": "Speech Pacing & Clarity",
+                "badge": "info",
+                "title": "Increase Energy & Transition Pace",
+                "description": "Your speech pace was measured at 10.4 WPM. A slightly crisper cadence between slide transitions will maintain higher student alertness."
+            },
+            {
+                "pillar": "Time Management & Topic Closure",
+                "badge": "danger",
+                "title": "Mitigate Leftover Topics: Deadlock Recovery Strategies",
+                "description": "The class left 2 subtopic(s) uncovered due to prolonged introductory tracing. Allocate a strict 10-minute countdown checkpoint to ensure proofs and edge-cases are not rushed at the bell."
+            },
+            {
+                "pillar": "Student Interaction & Gaze",
+                "badge": "info",
+                "title": "Extend Question Wait-Time to 5\u20137 Seconds",
+                "description": "After asking conceptual questions, hold a 5-second silence before answering your own question. This prompts higher voluntary participation from quieter rows."
+            },
+            {
+                "pillar": "Classroom Dynamics & Board Presence",
+                "badge": "success",
+                "title": "Strong Visual Blackboard Utilization",
+                "description": "Commendable board utilization (50.2% of class). Step-by-step blackboard derivations clearly reinforced abstract concepts."
+            }
+        ]
+    },
+    {
+        "audit_id": "AUD-DCA9B984",
+        "timestamp": "2026-08-22 22:34:25",
+        "faculty_name": "K L Venkatesh",
+        "subject": "Data Structures Algorithms",
+        "topic": "Quick Sort",
+        "department": "Computer Science & Engineering",
+        "video_source": "1787417593_2.8.1  QuickSort Algorithm - Abdul Bari (1080p, h264).mp4",
+        "video_duration_minutes": 10.0,
+        "overall_score": 67.7,
+        "performance_tier": "Tier B (Competent with Actionable Growth Areas)",
+        "tier_color": "warning",
+        "audio_analytics": {
+            "total_words": 104,
+            "duration_minutes": 10.0,
+            "wpm": 10.4,
+            "pacing_status": "Slow / Sluggish (Pacing needs acceleration)",
+            "pacing_color": "warning",
+            "language_distribution": {
+                "english_pct": 100.0,
+                "vernacular_pct": 3.0,
+                "technical_vocab_pct": 30.8,
+                "primary_language": "English (Standard Academic)"
+            },
+            "pause_metrics": {
+                "total_pauses": 17,
+                "pauses_per_minute": 1.7,
+                "avg_pause_duration_sec": 1.4,
+                "thinking_pauses": 12,
+                "dead_silence_count": 4
+            },
+            "clarity_score": 65,
+            "transcript_sample": "Good morning students. Today we will analyze Deadlock conditions and Resource Allocation Graphs in Operating Systems. For a deadlock to occur, four Coffman conditions must hold simultaneously: Mutual Exclusion, Hold and Wait, No Preemption, and Circular Wait. Let us visualize this graph on the board. Look at process P1 requesting resource R1. How can we prevent deadlocks? We can either use Deadlock Prevention, Deadlock Avoidance with Banker's alg..."
+        },
+        "vision_analytics": {
+            "duration_seconds": 822.1,
+            "sampled_frames_count": 412,
+            "presence_distribution": {
+                "board_presence_pct": 50.2,
+                "podium_presence_pct": 29.9,
+                "roaming_classroom_pct": 19.9
+            },
+            "board_activity": {
+                "active_writing_episodes": 326,
+                "board_utilization_rating": "High (Frequent Diagrammatic Tracing)"
+            },
+            "gaze_orientation": {
+                "facing_students_pct": 62.5,
+                "facing_board_pct": 28.0,
+                "screen_laptop_focus_pct": 9.5
+            },
+            "classroom_movement_score": 70
+        },
+        "concept_depth": {
+            "average_depth_score": 79.8,
+            "depth_rating": "Moderate Depth (Good Practical Balance)",
+            "depth_badge": "info",
+            "blooms_taxonomy": {
+                "Remember (Recall & Terminology)": 86,
+                "Understand (Concepts & Analogies)": 93,
+                "Apply (Problem Solving & Code/Proofs)": 88,
+                "Analyze (Complexity & Edge Cases)": 67,
+                "Evaluate (Synthesis & Real-world Tradeoffs)": 65
+            }
+        },
+        "leftover_analysis": {
+            "planned_curriculum_topics": [
+                "Coffman 4 Deadlock Conditions",
+                "Resource Allocation Graph",
+                "Deadlock Prevention",
+                "Banker's Safety Algorithm",
+                "Deadlock Recovery & Preemption"
+            ],
+            "successfully_covered": [
+                "Coffman 4 Deadlock Conditions",
+                "Resource Allocation Graph",
+                "Banker's Safety Algorithm"
+            ],
+            "uncovered_subtopics": [
+                "Deadlock Recovery Strategies",
+                "Process Termination & Resource Preemption"
+            ],
+            "coverage_percentage": 60.0,
+            "time_shortage_trigger": "Banker's algorithm tracing required full board explanation; recovery mechanisms were left as reading assignment."
+        },
+        "interaction_metrics": {
+            "total_questions_asked": 1,
+            "questions_per_10_min": 1.0,
+            "question_type_breakdown": {
+                "comprehension_checks": 0,
+                "open_ended_critical": 0,
+                "rhetorical_transitions": 0
+            },
+            "avg_wait_time_sec": 3.8,
+            "engagement_score": 60
+        },
+        "actionable_suggestions": [
+            {
+                "pillar": "Speech Pacing & Clarity",
+                "badge": "info",
+                "title": "Increase Energy & Transition Pace",
+                "description": "Your speech pace was measured at 10.4 WPM. A slightly crisper cadence between slide transitions will maintain higher student alertness."
+            },
+            {
+                "pillar": "Time Management & Topic Closure",
+                "badge": "danger",
+                "title": "Mitigate Leftover Topics: Deadlock Recovery Strategies",
+                "description": "The class left 2 subtopic(s) uncovered due to prolonged introductory tracing. Allocate a strict 10-minute countdown checkpoint to ensure proofs and edge-cases are not rushed at the bell."
+            },
+            {
+                "pillar": "Student Interaction & Gaze",
+                "badge": "info",
+                "title": "Extend Question Wait-Time to 5\u20137 Seconds",
+                "description": "After asking conceptual questions, hold a 5-second silence before answering your own question. This prompts higher voluntary participation from quieter rows."
+            },
+            {
+                "pillar": "Classroom Dynamics & Board Presence",
+                "badge": "success",
+                "title": "Strong Visual Blackboard Utilization",
+                "description": "Commendable board utilization (50.2% of class). Step-by-step blackboard derivations clearly reinforced abstract concepts."
+            }
+        ]
+    },
+    {
+        "audit_id": "AUD-5F648C77",
+        "timestamp": "2026-08-22 22:30:27",
+        "faculty_name": "Dr. Ramesh Sharma",
+        "subject": "Machine Learning & AI",
+        "topic": "Support Vector Machines & Kernel Tricks",
+        "department": "Computer Science & Engineering",
+        "video_source": "benchmark_sample_ml_svm.mp4",
+        "video_duration_minutes": 10.0,
+        "overall_score": 70.5,
+        "performance_tier": "Tier B (Competent with Actionable Growth Areas)",
+        "tier_color": "warning",
+        "audio_analytics": {
+            "total_words": 141,
+            "duration_minutes": 10.0,
+            "wpm": 14.1,
+            "pacing_status": "Slow / Sluggish (Pacing needs acceleration)",
+            "pacing_color": "warning",
+            "language_distribution": {
+                "english_pct": 99.3,
+                "vernacular_pct": 3.0,
+                "technical_vocab_pct": 19.9,
+                "primary_language": "English (Standard Academic)"
+            },
+            "pause_metrics": {
+                "total_pauses": 17,
+                "pauses_per_minute": 1.7,
+                "avg_pause_duration_sec": 1.4,
+                "thinking_pauses": 12,
+                "dead_silence_count": 4
+            },
+            "clarity_score": 65,
+            "transcript_sample": "Good morning everyone. Today we are going to dive deep into Support Vector Machines and Kernel tricks. Dekho, in machine learning, our objective is to find an optimal separating hyperplane that maximizes the margin between two distinct classes. What is this margin? It is the distance between the decision boundary and the closest data points, which we call support vectors. Let us write down the mathematical formulation on the board. As you can see..."
+        },
+        "vision_analytics": {
+            "duration_seconds": 600.0,
+            "sampled_frames_count": 300,
+            "presence_distribution": {
+                "board_presence_pct": 46.5,
+                "podium_presence_pct": 34.0,
+                "roaming_classroom_pct": 19.5
+            },
+            "board_activity": {
+                "active_writing_episodes": 14,
+                "board_utilization_rating": "High (Frequent Diagrammatic & Code Tracing)"
+            },
+            "gaze_orientation": {
+                "facing_students_pct": 64.0,
+                "facing_board_pct": 26.5,
+                "screen_laptop_focus_pct": 9.5
+            },
+            "classroom_movement_score": 84
+        },
+        "concept_depth": {
+            "average_depth_score": 79.8,
+            "depth_rating": "Moderate Depth (Good Practical Balance)",
+            "depth_badge": "info",
+            "blooms_taxonomy": {
+                "Remember (Recall & Terminology)": 86,
+                "Understand (Concepts & Analogies)": 93,
+                "Apply (Problem Solving & Code/Proofs)": 88,
+                "Analyze (Complexity & Edge Cases)": 67,
+                "Evaluate (Synthesis & Real-world Tradeoffs)": 65
+            }
+        },
+        "leftover_analysis": {
+            "planned_curriculum_topics": [
+                "Coffman 4 Deadlock Conditions",
+                "Resource Allocation Graph",
+                "Deadlock Prevention",
+                "Banker's Safety Algorithm",
+                "Deadlock Recovery & Preemption"
+            ],
+            "successfully_covered": [
+                "Coffman 4 Deadlock Conditions",
+                "Resource Allocation Graph",
+                "Banker's Safety Algorithm"
+            ],
+            "uncovered_subtopics": [
+                "Deadlock Recovery Strategies",
+                "Process Termination & Resource Preemption"
+            ],
+            "coverage_percentage": 60.0,
+            "time_shortage_trigger": "Banker's algorithm tracing required full board explanation; recovery mechanisms were left as reading assignment."
+        },
+        "interaction_metrics": {
+            "total_questions_asked": 1,
+            "questions_per_10_min": 1.0,
+            "question_type_breakdown": {
+                "comprehension_checks": 0,
+                "open_ended_critical": 0,
+                "rhetorical_transitions": 0
+            },
+            "avg_wait_time_sec": 3.8,
+            "engagement_score": 60
+        },
+        "actionable_suggestions": [
+            {
+                "pillar": "Speech Pacing & Clarity",
+                "badge": "info",
+                "title": "Increase Energy & Transition Pace",
+                "description": "Your speech pace was measured at 14.1 WPM. A slightly crisper cadence between slide transitions will maintain higher student alertness."
+            },
+            {
+                "pillar": "Time Management & Topic Closure",
+                "badge": "danger",
+                "title": "Mitigate Leftover Topics: Deadlock Recovery Strategies",
+                "description": "The class left 2 subtopic(s) uncovered due to prolonged introductory tracing. Allocate a strict 10-minute countdown checkpoint to ensure proofs and edge-cases are not rushed at the bell."
+            },
+            {
+                "pillar": "Student Interaction & Gaze",
+                "badge": "info",
+                "title": "Extend Question Wait-Time to 5\u20137 Seconds",
+                "description": "After asking conceptual questions, hold a 5-second silence before answering your own question. This prompts higher voluntary participation from quieter rows."
+            },
+            {
+                "pillar": "Classroom Dynamics & Board Presence",
+                "badge": "success",
+                "title": "Strong Visual Blackboard Utilization",
+                "description": "Commendable board utilization (46.5% of class). Step-by-step blackboard derivations clearly reinforced abstract concepts."
+            }
+        ]
+    },
+    {
+        "audit_id": "AUD-8F29A10C",
+        "timestamp": "2026-08-22 10:30:00",
+        "faculty_name": "Dr. Ramesh Sharma",
+        "subject": "Machine Learning & AI",
+        "topic": "Support Vector Machines & Kernel Tricks",
+        "department": "Computer Science & Engineering",
+        "video_source": "cctv_hall_302_ml_lecture.mp4",
+        "video_duration_minutes": 12.0,
+        "overall_score": 88.5,
+        "performance_tier": "Tier A+ (Exemplary & Highly Engaging)",
+        "tier_color": "success",
+        "audio_analytics": {
+            "total_words": 1580,
+            "duration_minutes": 12.0,
+            "wpm": 131.7,
+            "pacing_status": "Optimal & Clear (Ideal comprehension range)",
+            "pacing_color": "success",
+            "language_distribution": {
+                "english_pct": 82.5,
+                "vernacular_pct": 13.5,
+                "technical_vocab_pct": 4.0,
+                "primary_language": "English (Standard Academic)"
+            },
+            "pause_metrics": {
+                "total_pauses": 78,
+                "pauses_per_minute": 6.5,
+                "avg_pause_duration_sec": 1.4,
+                "thinking_pauses": 58,
+                "dead_silence_count": 20
+            },
+            "clarity_score": 93,
+            "transcript_sample": "Good morning everyone. Today we are going to dive deep into Support Vector Machines and Kernel tricks. In machine learning, our objective is to find an optimal separating hyperplane that maximizes the margin between two distinct classes. What is this margin? It is the distance between the decision boundary and the closest data points, which we call support vectors..."
+        },
+        "vision_analytics": {
+            "duration_seconds": 720.0,
+            "sampled_frames_count": 360,
+            "presence_distribution": {
+                "board_presence_pct": 48.0,
+                "podium_presence_pct": 32.5,
+                "roaming_classroom_pct": 19.5
+            },
+            "board_activity": {
+                "active_writing_episodes": 16,
+                "board_utilization_rating": "High (Frequent Diagrammatic Tracing)"
+            },
+            "gaze_orientation": {
+                "facing_students_pct": 65.0,
+                "facing_board_pct": 25.5,
+                "screen_laptop_focus_pct": 9.5
+            },
+            "classroom_movement_score": 88
+        },
+        "concept_depth": {
+            "average_depth_score": 83.6,
+            "depth_rating": "High Rigor & Deep Analytical Coverage",
+            "depth_badge": "success",
+            "blooms_taxonomy": {
+                "Remember (Recall & Terminology)": 96,
+                "Understand (Concepts & Analogies)": 91,
+                "Apply (Problem Solving & Code/Proofs)": 86,
+                "Analyze (Complexity & Edge Cases)": 77,
+                "Evaluate (Synthesis & Real-world Tradeoffs)": 68
+            }
+        },
+        "leftover_analysis": {
+            "planned_curriculum_topics": [
+                "Margin Optimization",
+                "Support Vectors Concept",
+                "Kernel Trick & RBF",
+                "Soft Margin Slack Variables",
+                "Dual Formulation Proof"
+            ],
+            "successfully_covered": [
+                "Margin Optimization",
+                "Support Vectors Concept",
+                "Kernel Trick & RBF"
+            ],
+            "uncovered_subtopics": [
+                "Dual Formulation & Lagrange Multipliers Proof",
+                "Soft Margin Slack Variable Tuning"
+            ],
+            "coverage_percentage": 60.0,
+            "time_shortage_trigger": "Faculty ran out of time in the final 3 minutes and deferred the dual proof to tomorrow."
+        },
+        "interaction_metrics": {
+            "total_questions_asked": 11,
+            "questions_per_10_min": 9.2,
+            "question_type_breakdown": {
+                "comprehension_checks": 6,
+                "open_ended_critical": 3,
+                "rhetorical_transitions": 2
+            },
+            "avg_wait_time_sec": 4.2,
+            "engagement_score": 89
+        },
+        "actionable_suggestions": [
+            {
+                "pillar": "Speech Pacing & Clarity",
+                "badge": "success",
+                "title": "Maintain Optimal Speech Pacing",
+                "description": "Excellent articulation at 131.7 WPM. Speech cadence sits right in the golden comprehension zone for engineering instruction."
+            },
+            {
+                "pillar": "Time Management & Topic Closure",
+                "badge": "danger",
+                "title": "Mitigate Leftover Topics: Dual Formulation & Lagrange Multipliers",
+                "description": "The class left 2 subtopic(s) uncovered due to prolonged introductory tracing. Allocate a strict 10-minute countdown checkpoint to ensure mathematical proofs are not rushed at the bell."
+            },
+            {
+                "pillar": "Student Interaction & Gaze",
+                "badge": "info",
+                "title": "Extend Question Wait-Time to 5\u00e2\u20ac\u201c7 Seconds",
+                "description": "After asking conceptual questions about kernel boundaries, hold a 5-second silence before answering to prompt higher voluntary participation from quieter rows."
+            },
+            {
+                "pillar": "Classroom Dynamics & Board Presence",
+                "badge": "success",
+                "title": "Strong Visual Blackboard Utilization",
+                "description": "Commendable board utilization (48.0% of class). Step-by-step blackboard derivations clearly reinforced 2D to 3D feature projection."
+            }
+        ]
+    }
+]

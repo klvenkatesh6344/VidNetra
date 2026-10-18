@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - Classroom Distraction & Phone Monitor{% endblock %}
+{% block page_title %}Classroom Distraction & Phone Usage Monitor{% endblock %}
+
+{% block content %}
+<!-- Real-Time Alert Banner -->
+<div id="phoneAlertBanner" class="alert alert-danger glass-card border-danger mb-4 text-center py-3" style="display: none; animation: pulse 1.5s infinite;">
+    <h4 class="mb-1 text-danger font-weight-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i> DISTRACTION DETECTED: Mobile Phone in Active Use!</h4>
+    <small class="text-white">AI Audio Alarm Triggered & Faculty Alert Email Dispatched with Incident Snapshot.</small>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Live AI Video Stream -->
+    <div class="col-lg-7">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="text-white mb-0"><i class="bi bi-camera-video-fill text-info me-2"></i> YOLOv8 Vision Stream</h5>
+                    <small class="text-muted">Real-time Person & Mobile Device Spatial Intersection</small>
+                </div>
+                <span class="badge badge-warning-custom">YOLOv8 Active</span>
+            </div>
+
+            <!-- Video Feed Container -->
+            <div class="video-container mb-3">
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    <span>LIVE DISTRACTION AI</span>
+                </div>
+                <img src="{{ url_for('video_feed', mode='phone_detection') }}" class="video-stream-img" alt="YOLOv8 Distraction Detection Stream">
+            </div>
+
+            <!-- Model Info -->
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                <div class="small text-muted">
+                    <span class="text-info fw-bold">Neural Architecture:</span> YOLOv8n Deep Learning &bull; Bounding Box Containment Algorithm
+                </div>
+                <button class="btn btn-sm btn-outline-danger" onclick="AudioAlerts.playWarningBeep()">
+                    <i class="bi bi-bell-fill"></i> Test Buzzer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Telemetry & Metrics -->
+    <div class="col-lg-5">
+        <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+                <h5 class="text-white mb-4"><i class="bi bi-speedometer text-info me-2"></i> Live Classroom Telemetry</h5>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-muted small">Total Students</div>
+                            <div class="fs-3 fw-bold text-white" id="metricTotalStudents">0</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-muted small">Attentive</div>
+                            <div class="fs-3 fw-bold text-success" id="metricAttentive">0</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-muted small">Phone Users</div>
+                            <div class="fs-3 fw-bold" id="metricPhoneUsers">0</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-muted small">Distraction Rate</div>
+                            <div class="fs-3 fw-bold text-info" id="metricDistractionRate">0%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distraction Progress Bar -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between text-muted small mb-1">
+                        <span>Classroom Distraction Level</span>
+                        <span>Threshold: 20%</span>
+                    </div>
+                    <div class="progress bg-dark" style="height: 12px; border-radius: 6px;">
+                        <div id="distractionProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Notification Status Card -->
+            <div class="p-3 bg-dark bg-opacity-50 rounded-3 border border-secondary border-opacity-25 mt-3">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-envelope-check-fill text-info"></i>
+                    <strong class="text-white small">Automated Faculty Alerts</strong>
+                </div>
+                <p class="text-muted small mb-0">
+                    When phone usage is detected, a priority alert is immediately dispatched to <code>kuchipudilakshmivenkatesh@gmail.com</code> with anti-spam cooldown protection.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Incident History Log -->
+<div class="glass-card p-4">
+    <h5 class="text-white mb-3"><i class="bi bi-journal-text text-warning me-2"></i> Logged Distraction Incidents</h5>
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Incident ID</th>
+                    <th>Type</th>
+                    <th>Details</th>
+                    <th>Timestamp</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if incidents %}
+                    {% for inc in incidents %}
+                    <tr>
+                        <td class="font-monospace text-info">{{ inc.id }}</td>
+                        <td><span class="badge badge-danger-custom">{{ inc.type }}</span></td>
+                        <td>{{ inc.details }}</td>
+                        <td class="text-muted font-monospace">{{ inc.timestamp }}</td>
+                        <td><span class="badge badge-info-custom">Reported</span></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">No distraction incidents logged yet.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        startDistractionPoller();
+    });
+</script>
+{% endblock %}

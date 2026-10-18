@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}VidNetra - Attendance Records & Logs{% endblock %}
+{% block page_title %}Attendance Records & Historical Logs{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4 mb-4">
+    <!-- Filter & Search Toolbar -->
+    <form method="GET" action="{{ url_for('attendance_records') }}" class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label text-muted small fw-bold">SEARCH STUDENT NAME</label>
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" name="q" class="form-control form-control-custom" placeholder="Search by student name..." value="{{ search_query }}">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label text-muted small fw-bold">FILTER BY DATE</label>
+            <select name="date" class="form-control-custom">
+                <option value="">-- All Dates ({{ unique_dates|length }} Total) --</option>
+                {% for d in unique_dates %}
+                <option value="{{ d }}" {% if selected_date == d %}selected{% endif %}>{{ d }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-5 d-flex gap-2">
+            <button type="submit" class="btn-vidnetra flex-grow-1 justify-content-center">
+                <i class="bi bi-funnel-fill"></i> Apply Filter
+            </button>
+            <a href="{{ url_for('attendance_records') }}" class="btn-secondary-custom justify-content-center">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset
+            </a>
+            <a href="{{ url_for('export_attendance_csv') }}" class="btn btn-outline-success d-inline-flex align-items-center gap-2 px-3">
+                <i class="bi bi-file-earmark-spreadsheet-fill"></i> Export CSV
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Attendance Data Table -->
+<div class="glass-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-white mb-0">
+            <i class="bi bi-table text-info me-2"></i> Attendance Log History 
+            <span class="badge badge-info-custom ms-2">{{ records|length }} Record(s) Found</span>
+        </h5>
+        {% if selected_date %}
+        <span class="badge badge-warning-custom">Filtered for: {{ selected_date }}</span>
+        {% endif %}
+    </div>
+
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>Time Stamp</th>
+                    <th>Status</th>
+                    <th>Quick Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if records %}
+                    {% for rec in records %}
+                    <tr>
+                        <td class="text-muted">{{ loop.index }}</td>
+                        <td>
+                            <strong class="text-white">{{ rec.Name }}</strong>
+                        </td>
+                        <td><span class="font-monospace text-info">{{ rec.Date }}</span></td>
+                        <td><span class="font-monospace text-muted">{{ rec.Time }}</span></td>
+                        <td>
+                            <span class="badge badge-success-custom">
+                                <i class="bi bi-check-circle-fill me-1"></i> Present (Verified)
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('student_portal', search=rec.Name) }}" class="btn btn-sm btn-outline-info" title="View Student Attendance Summary">
+                                <i class="bi bi-person-lines-fill"></i> View Profile
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-5">
+                            <i class="bi bi-journal-x fs-1 d-block mb-2 text-secondary"></i>
+                            No attendance records match your search query or filter.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
