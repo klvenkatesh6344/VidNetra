@@ -1,4 +1,4 @@
-# 👁️ VidNetra: Securing Every Learning Moment
+#  VidNetra: Securing Every Learning Moment
 
 > **A Computer Vision & AI Blended Solution for Smart Classrooms, Campus Safety & Lecture Intelligence**  
 > *Faculty of Engineering & Technology, Parul University*
@@ -11,13 +11,13 @@
 
 ---
 
-## 🌟 About VidNetra
+## About VidNetra
 
 **VidNetra** ("Visual Third Eye") is an enterprise-grade AI and Computer Vision platform designed to safeguard the modern educational ecosystem. By transforming raw visual streams from classroom cameras and CCTV feeds into actionable intelligence, VidNetra empowers educators, parents, and institutional management with real-time analytics on attendance, academic engagement, campus safety, and faculty pedagogy.
 
 ---
 
-## 👥 Project Team & Academic Mentorship
+## Project Team & Academic Mentorship
 
 - **Academic Mentor**: **Md Mehedi Hasan** (Assistant Professor, Faculty of Engineering & Technology, Parul University)
 - **Team Lead & Backend Developer**: **Kuchipudi Lakshmi Venkatesh**
@@ -29,30 +29,30 @@ Institutional Emails: `2303031240571@paruluniversity.ac.in` | `2303031240599@par
 
 ---
 
-## 🚀 Key Modules & Capabilities
+##  Key Modules & Capabilities
 
-### 1. 👤 Facial Recognition Attendance System
+### 1. Facial Recognition Attendance System
 - **Student Enrollment Studio (`/enroll`)**: Live webcam snapshot or photo upload to generate 128-dimensional biometric embeddings (`dlib` ResNet).
 - **Live Recognition Camera (`/attendance_live`)**: Real-time Euclidean distance matching with confidence scoring, once-per-day check-in deduplication, and audio chimes.
 - **Historical Records & CSV Export (`/attendance_records`)**: Date/student query filters with 1-click CSV download.
 
-### 2. 📱 Classroom Distraction & Phone Usage Monitor
+### 2. Classroom Distraction & Phone Usage Monitor
 - **YOLOv8 Deep Learning**: Concurrent detection of students and mobile phones.
 - **Spatial Containment Algorithm**: Flags active phone usage when phone coordinates intersect upper-body bounding boxes.
 - **Automated Alerts**: Real-time visual warning badges, Web Audio API alarm buzzer, and asynchronous SMTP email dispatch to faculty.
 
-### 3. 👥 Crowd Density & Stampede Prevention
+### 3. Crowd Density & Stampede Prevention
 - **Centroid Headcount**: Real-time tracking of student clusters in hallways and auditoriums.
 - **Dynamic Risk Levels**:
   - 🟢 **Safe** (< 5 persons)
   - 🟡 **Warning** (5 – 10 persons)
   - 🔴 **Stampede Risk** (> 10 persons with critical sirens)
 
-### 4. 🛡️ AI Exam Proctoring Suite
+### 4. AI Exam Proctoring Suite
 - **Single-Candidate Verification**: Ensures the enrolled candidate remains seated in the designated exam zone.
 - **Anomaly Detection**: Flags secondary persons assisting candidates, prohibited electronics, and candidate absence.
 
-### 5. 🎓 AI Teaching Auditor & Lecture Intelligence
+### 5. AI Teaching Auditor & Lecture Intelligence
 - **5-Stage Multimodal Audit**: Ingests 5–15 min POC videos (or 45 min CCTV footage) using keyframe sampling for rapid local processing.
 - **Linguistic Breakdown**: Analyzes speech tempo (Words Per Minute) and English vs. Vernacular / Regional language code-switching.
 - **Bloom's Taxonomy Cognitive Depth**: Grades conceptual rigor across *Remember*, *Understand*, *Apply*, *Analyze*, and *Evaluate*.
@@ -60,12 +60,12 @@ Institutional Emails: `2303031240571@paruluniversity.ac.in` | `2303031240599@par
 - **Movement Heatmap**: Tracks teacher time distribution (% Whiteboard, % Podium, % Roaming) and writing episodes.
 - **Actionable Suggestions & Printable Dossier**: Generates constructive, rubric-scored recommendations for faculty development.
 
-### 6. 🔍 Student & Parent Attendance Portal
+### 6. Student & Parent Attendance Portal
 - Roll number and name search providing attendance percentages, status timelines, and compliance with the 75% minimum academic threshold.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies |
 | :--- | :--- |
@@ -78,7 +78,7 @@ Institutional Emails: `2303031240571@paruluniversity.ac.in` | `2303031240599@par
 
 ---
 
-## ⚡ Quick Start Guide
+## Quick Start Guide
 
 ### 1. Prerequisites
 - Python **3.12** installed.
@@ -149,5 +149,5 @@ vidnetra/
 
 ---
 
-## 📄 Documentation
+## Documentation
 For detailed system flowcharts, sequence diagrams, and API specifications, see **[WORKFLOWS_AND_REQUIREMENTS.md](WORKFLOWS_AND_REQUIREMENTS.md)**.
